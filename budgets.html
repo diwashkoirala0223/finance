@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budgets — FamilyLedger</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<div class="app-shell">
+  <!-- ─── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div class="logo-text">Family<span>Ledger</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-label">Main</div>
+        <a class="nav-item" href="dashboard.html">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a class="nav-item" href="add-expense.html">
+          <span class="nav-icon">💸</span> Add Expense
+        </a>
+        <a class="nav-item active" href="budgets.html">
+          <span class="nav-icon">🎯</span> Budgets
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Account</div>
+        <a class="nav-item" href="index.html">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <a class="nav-item" id="logout-btn">
+          <span class="nav-icon">🚪</span> Sign Out
+        </a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="household-chip">
+        <div class="hh-avatar" id="sidebar-user-init">R</div>
+        <div class="hh-info">
+          <div class="hh-name" id="sidebar-user-name">Loading…</div>
+          <div class="hh-role" id="sidebar-hh-name">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── Main ─────────────────────────────────────────────── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none">☰</button>
+        <div>
+          <div class="topbar-title">Budget Management</div>
+          <div class="topbar-subtitle">Set and track monthly spending limits per category</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-primary btn-sm" id="add-cat-btn">+ New Category</button>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <!-- ─── Summary Strip ─────────────────────────────── -->
+      <div class="card mb-lg">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;text-align:center">
+          <div style="padding:14px 10px;border-right:1px solid var(--border-subtle)">
+            <div class="label" style="margin-bottom:6px">Total Budget</div>
+            <div style="font-size:1.3rem;font-weight:800;font-family:var(--font-display)" id="summary-total-budget">—</div>
+          </div>
+          <div style="padding:14px 10px;border-right:1px solid var(--border-subtle)">
+            <div class="label" style="margin-bottom:6px">Spent (This Month)</div>
+            <div style="font-size:1.3rem;font-weight:800;font-family:var(--font-display);color:var(--red)" id="summary-total-spent">—</div>
+          </div>
+          <div style="padding:14px 10px;border-right:1px solid var(--border-subtle)">
+            <div class="label" style="margin-bottom:6px">Remaining</div>
+            <div style="font-size:1.3rem;font-weight:800;font-family:var(--font-display);color:var(--green)" id="summary-remaining">—</div>
+          </div>
+          <div style="padding:14px 10px;border-right:1px solid var(--border-subtle)">
+            <div class="label" style="margin-bottom:6px">Over Budget</div>
+            <div style="font-size:1.3rem;font-weight:800;font-family:var(--font-display);color:var(--amber)" id="summary-overspent">—</div>
+          </div>
+          <div style="padding:14px 10px">
+            <div class="label" style="margin-bottom:6px">Categories</div>
+            <div style="font-size:1.3rem;font-weight:800;font-family:var(--font-display)" id="summary-categories">—</div>
+          </div>
+        </div>
+        <div style="padding:14px 14px 0;border-top:1px solid var(--border-subtle);margin-top:0">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:0.78rem;color:var(--text-muted)">Overall budget utilization this month</span>
+            <span style="font-size:0.78rem;font-weight:700;color:var(--accent)" id="summary-pct">—</span>
+          </div>
+          <div class="progress-track" style="height:10px">
+            <div class="progress-fill" id="summary-progress" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── Budget Cards Grid ──────────────────────────── -->
+      <div class="grid grid-3" id="budget-cards">
+        <!-- Rendered by budgets.js -->
+        <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:160px">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <!-- ─── AI Insights Panel ──────────────────────────── -->
+      <div class="card mt-lg" id="ai-insights-panel">
+        <div class="card-header">
+          <div>
+            <div class="card-title">🤖 AI Spending Insights</div>
+            <div class="card-subtitle">Rule-based analysis of your spending patterns</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="run-insights-btn">Analyse Now</button>
+        </div>
+        <div id="ai-insights-output">
+          <div style="text-align:center;padding:24px;color:var(--text-muted)">
+            <div style="font-size:32px;margin-bottom:10px">🤖</div>
+            <p>Click <strong style="color:var(--text-secondary)">Analyse Now</strong> to generate insights from your spending data.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ─── Add/Edit Category Modal ───────────────────────────── -->
+<div class="modal-overlay hidden" id="cat-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Add Category</div>
+      <button class="modal-close" id="close-modal-btn">✕</button>
+    </div>
+
+    <input type="hidden" id="cat-id-input" />
+
+    <div class="form-group">
+      <label class="form-label" for="cat-name">Category Name <span class="required">*</span></label>
+      <input class="form-input" id="cat-name" type="text" placeholder="e.g. Entertainment" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="cat-budget">Monthly Budget (₹) <span class="required">*</span></label>
+      <input class="form-input" id="cat-budget" type="number" min="1" placeholder="e.g. 5000" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="cat-icon">Icon (emoji)</label>
+        <input class="form-input" id="cat-icon" type="text" placeholder="📦" maxlength="4" />
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label" for="cat-color">Color</label>
+        <input class="form-input" id="cat-color" type="color" value="#10b981" style="height:42px;padding:4px 8px;cursor:pointer" />
+      </div>
+    </div>
+
+    <!-- Preset Icons -->
+    <div style="margin-top:14px">
+      <div class="label" style="margin-bottom:8px">Quick Presets</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('🛒','Food','#10b981')">🛒 Food</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('🚗','Transport','#3b82f6')">🚗 Transport</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('💡','Utilities','#f59e0b')">💡 Utilities</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('📚','Education','#8b5cf6')">📚 Education</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('🎬','Entertainment','#ec4899')">🎬 Entertainment</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('🏥','Health','#f43f5e')">🏥 Health</button>
+        <button class="btn btn-ghost btn-sm" onclick="setPreset('📦','Misc','#64748b')">📦 Misc</button>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" id="cancel-modal-btn">Cancel</button>
+      <button class="btn btn-primary" id="save-cat-btn">Add Category</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/budgets.js"></script>
+<script>
+  if (window.innerWidth <= 768) document.getElementById('menu-toggle').style.display = 'flex';
+
+  function setPreset(icon, name, color) {
+    document.getElementById('cat-icon').value  = icon;
+    document.getElementById('cat-name').value  = name;
+    document.getElementById('cat-color').value = color;
+  }
+
+  // AI Insights (rule-based, client-side)
+  document.getElementById('run-insights-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('run-insights-btn');
+    const out = document.getElementById('ai-insights-output');
+    btn.disabled = true; btn.textContent = 'Analysing…';
+
+    await new Promise(r => setTimeout(r, 800)); // simulate processing
+
+    const session = Auth.getSession();
+    const db = await DB.init();
+    const hhId = session.household_id;
+    const cats = db.categories.filter(c => c.household_id === hhId);
+    const catIds = cats.map(c => c.id);
+    const expenses = db.expenses.filter(e => catIds.includes(e.category_id));
+
+    const now = new Date();
+    const curMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    const prevDate = new Date(now.getFullYear(), now.getMonth()-1);
+    const prevMonth = `${prevDate.getFullYear()}-${String(prevDate.getMonth()+1).padStart(2,'0')}`;
+
+    const curExp  = expenses.filter(e => e.date.startsWith(curMonth));
+    const prevExp = expenses.filter(e => e.date.startsWith(prevMonth));
+
+    const insights = [];
+
+    // Per-category analysis
+    cats.forEach(cat => {
+      const cur  = curExp.filter(e => e.category_id === cat.id).reduce((s, e) => s + e.amount, 0);
+      const prev = prevExp.filter(e => e.category_id === cat.id).reduce((s, e) => s + e.amount, 0);
+      const pct  = cat.budget_amount > 0 ? (cur / cat.budget_amount) * 100 : 0;
+      const delta = prev > 0 ? ((cur - prev) / prev * 100) : null;
+
+      if (pct > 100) {
+        insights.push({ type: 'danger', icon: '🚨', title: `${cat.icon} ${cat.name} Over Budget`, msg: `Spending is ${Math.round(pct - 100)}% over the ₹${cat.budget_amount.toLocaleString()} budget. Consider cutting back or adjusting the limit.` });
+      } else if (pct >= 80) {
+        insights.push({ type: 'warning', icon: '⚠️', title: `${cat.icon} ${cat.name} Near Limit`, msg: `Only ${Math.round(100 - pct)}% of the budget remains. ${Math.round(pct)}% utilised so far this month.` });
+      }
+      if (delta !== null && Math.abs(delta) > 20) {
+        const dir = delta > 0 ? 'increased' : 'decreased';
+        const col = delta > 0 ? 'warning' : 'success';
+        insights.push({ type: col, icon: delta > 0 ? '📈' : '📉', title: `${cat.icon} ${cat.name} ${dir} ${Math.round(Math.abs(delta))}%`, msg: `Compared to last month (₹${prev.toLocaleString()}), this month's spend is ₹${cur.toLocaleString()}.` });
+      }
+    });
+
+    // Total savings insight
+    const totalBudget = cats.reduce((s, c) => s + c.budget_amount, 0);
+    const totalSpent  = curExp.reduce((s, e) => s + e.amount, 0);
+    const saved = totalBudget - totalSpent;
+    if (saved > 0) {
+      insights.push({ type: 'success', icon: '💚', title: `On Track — ₹${saved.toLocaleString()} Still Available`, msg: `You have ${Math.round((saved/totalBudget)*100)}% of your total monthly budget remaining. Great discipline!` });
+    }
+
+    // Most expensive category
+    const catSpends = cats.map(c => ({ ...c, spent: curExp.filter(e => e.category_id === c.id).reduce((s, e) => s + e.amount, 0) }));
+    const top = catSpends.sort((a, b) => b.spent - a.spent)[0];
+    if (top && top.spent > 0) {
+      insights.push({ type: 'info', icon: '🔍', title: `Highest Spend: ${top.icon} ${top.name}`, msg: `${top.name} accounts for the most spending this month at ₹${top.spent.toLocaleString()}, which is ${Math.round((top.spent/totalSpent)*100)}% of your total expenditure.` });
+    }
+
+    if (insights.length === 0) {
+      insights.push({ type: 'success', icon: '✅', title: 'All Clear', msg: 'No anomalies detected. Your spending looks healthy this month.' });
+    }
+
+    out.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        ${insights.map(i => `
+          <div class="alert alert-${i.type}">
+            <span class="alert-icon">${i.icon}</span>
+            <div class="alert-body">
+              <div class="alert-title">${i.title}</div>
+              <div class="alert-msg">${i.msg}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top:14px;padding:12px;background:var(--bg-elevated);border-radius:var(--radius-sm);font-size:0.78rem;color:var(--text-muted);text-align:center">
+        🤖 Insights generated by rule-based analysis engine · ${new Date().toLocaleString()}
+      </div>
+    `;
+
+    btn.disabled = false; btn.textContent = 'Analyse Now';
+  });
+</script>
+</body>
+</html>

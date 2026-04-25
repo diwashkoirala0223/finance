@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expenses — FamilyLedger</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<div class="app-shell">
+  <!-- ─── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div class="logo-text">Family<span>Ledger</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-label">Main</div>
+        <a class="nav-item" href="dashboard.html">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a class="nav-item active" href="add-expense.html">
+          <span class="nav-icon">💸</span> Add Expense
+        </a>
+        <a class="nav-item" href="budgets.html">
+          <span class="nav-icon">🎯</span> Budgets
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Account</div>
+        <a class="nav-item" href="index.html">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <a class="nav-item" id="logout-btn">
+          <span class="nav-icon">🚪</span> Sign Out
+        </a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="household-chip">
+        <div class="hh-avatar" id="sidebar-user-init">R</div>
+        <div class="hh-info">
+          <div class="hh-name" id="sidebar-user-name">Loading…</div>
+          <div class="hh-role" id="sidebar-hh-name">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── Main ─────────────────────────────────────────────── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none">☰</button>
+        <div>
+          <div class="topbar-title">Expenses</div>
+          <div class="topbar-subtitle">Log and manage all household transactions</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <span id="expense-total" style="font-size:0.85rem;color:var(--text-muted)"></span>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="grid grid-cols-2-1" style="align-items:start">
+
+        <!-- ─── Expense List ──────────────────────────────── -->
+        <div>
+          <!-- Filters -->
+          <div class="card mb-md">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <div class="card-title">All Expenses</div>
+              <span class="badge badge-accent" id="expense-count">Loading…</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px">
+              <select class="form-select" id="filter-category">
+                <option value="">All Categories</option>
+              </select>
+              <select class="form-select" id="filter-month">
+                <option value="">All Months</option>
+              </select>
+              <select class="form-select" id="filter-user">
+                <option value="">All Members</option>
+              </select>
+            </div>
+            <input class="form-input" id="search-expenses" type="text" placeholder="🔍 Search by notes…" />
+          </div>
+
+          <!-- Table -->
+          <div class="card" style="padding:0;overflow:hidden">
+            <div style="overflow-x:auto">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Member</th>
+                    <th>Notes</th>
+                    <th style="width:80px">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="expenses-table-body">
+                  <tr><td colspan="6"><div class="empty-state" style="padding:24px"><div class="spinner" style="margin:0 auto"></div></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── Add Expense Form ──────────────────────────── -->
+        <div class="card" id="expense-form-card" style="position:sticky;top:calc(var(--topbar-h) + 28px)">
+          <div class="card-header">
+            <div>
+              <div class="card-title" id="form-title">Add New Expense</div>
+              <div class="card-subtitle">Record a household transaction</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="exp-amount">Amount (₹) <span class="required">*</span></label>
+            <input class="form-input" id="exp-amount" type="number" min="1" step="0.01" placeholder="e.g. 1500" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="exp-category">Category <span class="required">*</span></label>
+            <select class="form-select" id="exp-category">
+              <option value="">Select category…</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="exp-date">Date <span class="required">*</span></label>
+              <input class="form-input" id="exp-date" type="date" />
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="exp-user">Spent by <span class="required">*</span></label>
+              <select class="form-select" id="exp-user"></select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:18px">
+            <label class="form-label" for="exp-notes">Notes</label>
+            <textarea class="form-textarea" id="exp-notes" placeholder="Optional description…" style="min-height:72px"></textarea>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-primary w-full" id="submit-btn">+ Add Expense</button>
+            <button class="btn btn-secondary w-full hidden" id="cancel-edit-btn">Cancel Edit</button>
+          </div>
+
+          <!-- Quick Tips -->
+          <div style="margin-top:20px;padding:14px;background:var(--bg-elevated);border-radius:var(--radius-sm);border:1px solid var(--border-subtle)">
+            <div class="label" style="margin-bottom:8px">💡 Tips</div>
+            <ul style="display:flex;flex-direction:column;gap:6px;padding-left:16px;list-style:disc">
+              <li style="font-size:0.78rem;color:var(--text-muted)">Use notes to recall what you bought</li>
+              <li style="font-size:0.78rem;color:var(--text-muted)">You'll get an alert if a category nears its limit</li>
+              <li style="font-size:0.78rem;color:var(--text-muted)">Click ✏️ on any row to edit an expense</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/expenses.js"></script>
+<script>
+  if (window.innerWidth <= 768) document.getElementById('menu-toggle').style.display = 'flex';
+</script>
+</body>
+</html>

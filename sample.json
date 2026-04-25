@@ -1,0 +1,52 @@
+{
+  "households": [
+    { "id": "hh_001", "name": "The Sharma Family" },
+    { "id": "hh_002", "name": "The Johnsons" }
+  ],
+  "users": [
+    { "id": "u_001", "name": "Ravi Sharma", "household_id": "hh_001", "pin": "1234" },
+    { "id": "u_002", "name": "Priya Sharma", "household_id": "hh_001", "pin": "1234" },
+    { "id": "u_003", "name": "Alex Johnson", "household_id": "hh_002", "pin": "5678" }
+  ],
+  "categories": [
+    { "id": "cat_001", "household_id": "hh_001", "name": "Food", "budget_amount": 15000, "icon": "🛒", "color": "#10b981" },
+    { "id": "cat_002", "household_id": "hh_001", "name": "Transport", "budget_amount": 8000, "icon": "🚗", "color": "#3b82f6" },
+    { "id": "cat_003", "household_id": "hh_001", "name": "Utilities", "budget_amount": 6000, "icon": "💡", "color": "#f59e0b" },
+    { "id": "cat_004", "household_id": "hh_001", "name": "Education", "budget_amount": 10000, "icon": "📚", "color": "#8b5cf6" },
+    { "id": "cat_005", "household_id": "hh_001", "name": "Misc", "budget_amount": 5000, "icon": "📦", "color": "#ec4899" },
+    { "id": "cat_006", "household_id": "hh_002", "name": "Food", "budget_amount": 20000, "icon": "🛒", "color": "#10b981" },
+    { "id": "cat_007", "household_id": "hh_002", "name": "Transport", "budget_amount": 12000, "icon": "🚗", "color": "#3b82f6" },
+    { "id": "cat_008", "household_id": "hh_002", "name": "Utilities", "budget_amount": 8000, "icon": "💡", "color": "#f59e0b" },
+    { "id": "cat_009", "household_id": "hh_002", "name": "Education", "budget_amount": 5000, "icon": "📚", "color": "#8b5cf6" },
+    { "id": "cat_010", "household_id": "hh_002", "name": "Misc", "budget_amount": 6000, "icon": "📦", "color": "#ec4899" }
+  ],
+  "expenses": [
+    { "id": "exp_001", "category_id": "cat_001", "user_id": "u_001", "amount": 3200, "date": "2025-04-02", "notes": "Weekly groceries from BigMart" },
+    { "id": "exp_002", "category_id": "cat_002", "user_id": "u_001", "amount": 1500, "date": "2025-04-03", "notes": "Petrol fill" },
+    { "id": "exp_003", "category_id": "cat_003", "user_id": "u_002", "amount": 2800, "date": "2025-04-04", "notes": "Electricity bill April" },
+    { "id": "exp_004", "category_id": "cat_004", "user_id": "u_002", "amount": 4500, "date": "2025-04-05", "notes": "School fee installment" },
+    { "id": "exp_005", "category_id": "cat_001", "user_id": "u_002", "amount": 2100, "date": "2025-04-07", "notes": "Restaurant dinner" },
+    { "id": "exp_006", "category_id": "cat_005", "user_id": "u_001", "amount": 1200, "date": "2025-04-08", "notes": "Birthday gift" },
+    { "id": "exp_007", "category_id": "cat_002", "user_id": "u_001", "amount": 800, "date": "2025-04-10", "notes": "Taxi rides" },
+    { "id": "exp_008", "category_id": "cat_001", "user_id": "u_001", "amount": 3400, "date": "2025-04-12", "notes": "Groceries + household items" },
+    { "id": "exp_009", "category_id": "cat_003", "user_id": "u_002", "amount": 1400, "date": "2025-04-13", "notes": "Internet + phone bills" },
+    { "id": "exp_010", "category_id": "cat_004", "user_id": "u_002", "amount": 2200, "date": "2025-04-15", "notes": "Online courses subscription" },
+    { "id": "exp_011", "category_id": "cat_001", "user_id": "u_001", "amount": 4800, "date": "2025-04-16", "notes": "Grocery run + snacks" },
+    { "id": "exp_012", "category_id": "cat_005", "user_id": "u_001", "amount": 2100, "date": "2025-04-18", "notes": "Clothing" },
+    { "id": "exp_013", "category_id": "cat_002", "user_id": "u_002", "amount": 2200, "date": "2025-04-19", "notes": "Car service" },
+    { "id": "exp_014", "category_id": "cat_003", "user_id": "u_001", "amount": 900, "date": "2025-04-20", "notes": "Water bill" },
+    { "id": "exp_015", "category_id": "cat_001", "user_id": "u_002", "amount": 1900, "date": "2025-04-22", "notes": "Vegetables and dairy" },
+    { "id": "exp_016", "category_id": "cat_002", "user_id": "u_001", "amount": 1100, "date": "2025-03-05", "notes": "Metro pass" },
+    { "id": "exp_017", "category_id": "cat_001", "user_id": "u_001", "amount": 6200, "date": "2025-03-08", "notes": "Bulk groceries" },
+    { "id": "exp_018", "category_id": "cat_003", "user_id": "u_002", "amount": 3100, "date": "2025-03-12", "notes": "Electricity + gas" },
+    { "id": "exp_019", "category_id": "cat_004", "user_id": "u_002", "amount": 8000, "date": "2025-03-15", "notes": "Tuition fee" },
+    { "id": "exp_020", "category_id": "cat_005", "user_id": "u_001", "amount": 3400, "date": "2025-03-20", "notes": "Home repair items" },
+    { "id": "exp_021", "category_id": "cat_001", "user_id": "u_001", "amount": 5100, "date": "2025-03-25", "notes": "Party catering supplies" },
+    { "id": "exp_022", "category_id": "cat_002", "user_id": "u_002", "amount": 3200, "date": "2025-03-28", "notes": "Fuel + parking" },
+    { "id": "exp_023", "category_id": "cat_001", "user_id": "u_001", "amount": 2800, "date": "2025-02-10", "notes": "Groceries" },
+    { "id": "exp_024", "category_id": "cat_002", "user_id": "u_001", "amount": 1900, "date": "2025-02-14", "notes": "Cab fares" },
+    { "id": "exp_025", "category_id": "cat_003", "user_id": "u_002", "amount": 2600, "date": "2025-02-18", "notes": "Utilities Feb" },
+    { "id": "exp_026", "category_id": "cat_004", "user_id": "u_002", "amount": 4200, "date": "2025-02-20", "notes": "School books + stationery" },
+    { "id": "exp_027", "category_id": "cat_005", "user_id": "u_001", "amount": 1800, "date": "2025-02-25", "notes": "Miscellaneous shopping" }
+  ]
+}

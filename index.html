@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FamilyLedger — Smart Family Budget Planner</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .screenshot-mockup {
+      background: var(--bg-surface); border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl); padding: 20px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), var(--shadow-accent);
+      max-width: 640px; margin: 40px auto 0;
+    }
+    .mock-topbar { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+    .mock-dot    { width:10px;height:10px;border-radius:50%; }
+    .mock-bars { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; height:80px; align-items:flex-end; }
+    .mock-bar  { border-radius:4px 4px 0 0; background: var(--accent); opacity:0.7; }
+    .mock-cards{ display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px; }
+    .mock-card { background:var(--bg-elevated);border-radius:8px;padding:10px;height:60px; }
+    .mock-line { height:6px;background:var(--bg-overlay);border-radius:4px;margin-bottom:6px; }
+    .mock-line.w60{width:60%} .mock-line.w80{width:80%} .mock-line.w40{width:40%} .mock-line.accent{background:var(--accent);opacity:0.5;}
+    .how-steps { display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px; }
+    .how-step  { text-align:center;padding:24px; }
+    .how-step .step-num { width:44px;height:44px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--border-accent);color:var(--accent);font-weight:800;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 14px; }
+    .how-step h3 { margin-bottom:8px; }
+    @media(max-width:768px){.how-steps,.features-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body class="landing-body">
+
+<!-- ─── Navigation ──────────────────────────────────────────── -->
+<nav class="landing-nav">
+  <div class="nav-logo">
+    <div class="logo-icon">💰</div>
+    <span>Family<span style="color:var(--accent)">Ledger</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How It Works</a>
+    <a href="login.html" class="btn btn-secondary btn-sm">Sign In</a>
+    <a href="login.html?tab=create" class="btn btn-primary btn-sm">Get Started Free</a>
+  </div>
+</nav>
+
+<!-- ─── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ Smart Household Finance</div>
+    <h1>Budget smarter,<br>as a <span>family.</span></h1>
+    <p>Track every rupee, set smart budgets, and get AI-powered insights — all in one shared household dashboard.</p>
+    <div class="hero-cta">
+      <a href="login.html?tab=create" class="btn btn-primary btn-lg">🚀 Create Your Household</a>
+      <a href="login.html" class="btn btn-secondary btn-lg">Sign In</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="s-value">5+</div><div class="s-label">Budget Categories</div></div>
+      <div class="hero-stat"><div class="s-value">∞</div><div class="s-label">Expense Records</div></div>
+      <div class="hero-stat"><div class="s-value">Real-time</div><div class="s-label">Overspend Alerts</div></div>
+      <div class="hero-stat"><div class="s-value">AI</div><div class="s-label">Spending Insights</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Dashboard Preview ───────────────────────────────────── -->
+<div style="padding:0 48px 60px;max-width:900px;margin:0 auto;">
+  <div class="screenshot-mockup">
+    <div class="mock-topbar">
+      <div class="mock-dot" style="background:#f43f5e"></div>
+      <div class="mock-dot" style="background:#f59e0b"></div>
+      <div class="mock-dot" style="background:#10b981"></div>
+      <div style="flex:1;height:22px;background:var(--bg-elevated);border-radius:4px;margin-left:8px"></div>
+    </div>
+    <div style="display:flex;gap:12px">
+      <div style="width:180px;background:var(--bg-elevated);border-radius:8px;padding:12px;flex-shrink:0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <div style="width:24px;height:24px;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:5px"></div>
+          <div class="mock-line w80" style="height:8px;margin:0"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="background:var(--accent-dim);border-radius:5px;padding:7px 10px;display:flex;align-items:center;gap:7px"><span style="font-size:13px">📊</span><div class="mock-line w80" style="margin:0;height:7px;background:var(--accent);opacity:0.4"></div></div>
+          <div style="padding:7px 10px;display:flex;align-items:center;gap:7px"><span style="font-size:13px">💸</span><div class="mock-line w60" style="margin:0;height:7px"></div></div>
+          <div style="padding:7px 10px;display:flex;align-items:center;gap:7px"><span style="font-size:13px">🎯</span><div class="mock-line w80" style="margin:0;height:7px"></div></div>
+        </div>
+      </div>
+      <div style="flex:1">
+        <div class="mock-cards" style="margin-bottom:12px">
+          <div class="mock-card"><div class="mock-line w40"></div><div class="mock-line w80 accent"></div></div>
+          <div class="mock-card"><div class="mock-line w60"></div><div class="mock-line w40 accent"></div></div>
+          <div class="mock-card"><div class="mock-line w40"></div><div class="mock-line w60 accent"></div></div>
+        </div>
+        <div style="background:var(--bg-elevated);border-radius:8px;padding:12px">
+          <div class="mock-bars">
+            <div class="mock-bar" style="height:40%;background:#10b981"></div>
+            <div class="mock-bar" style="height:70%;background:#3b82f6"></div>
+            <div class="mock-bar" style="height:55%;background:#f59e0b"></div>
+            <div class="mock-bar" style="height:90%;background:#8b5cf6"></div>
+            <div class="mock-bar" style="height:35%;background:#ec4899"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Features ─────────────────────────────────────────────── -->
+<section class="features-section" id="features">
+  <div class="section-label label">Core Features</div>
+  <h2>Everything your family needs<br>to stay on budget</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🏠</div>
+      <h3>Household System</h3>
+      <p>Create or join a shared household. Multiple family members can track and view the same budget together.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>Live Dashboard</h3>
+      <p>Visual charts, category breakdowns, monthly trends, and budget progress bars — updated in real time.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💸</div>
+      <h3>Expense Tracking</h3>
+      <p>Log every expense with category, date, amount, and notes. Filter, search, and edit with ease.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎯</div>
+      <h3>Smart Budgets</h3>
+      <p>Set monthly budgets per category. Progress bars and alerts keep you aware before you overspend.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚨</div>
+      <h3>Overspend Alerts</h3>
+      <p>Instant notifications when you hit 80% or exceed any category budget. Catch problems early.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI Insights Engine</h3>
+      <p>Python-powered spending analysis identifies patterns, trends, and personalized saving advice.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── How It Works ──────────────────────────────────────────── -->
+<section style="padding:60px 48px;max-width:1200px;margin:0 auto" id="how">
+  <div class="section-label label" style="text-align:center;margin-bottom:8px">Simple Process</div>
+  <h2 style="text-align:center">Up and running in 3 steps</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="step-num">1</div>
+      <h3>Create Household</h3>
+      <p>Register a household in seconds. Invite family members by sharing your Household ID.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">2</div>
+      <h3>Set Budgets</h3>
+      <p>Define monthly spending limits for Food, Transport, Utilities, Education, and more.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">3</div>
+      <h3>Track & Analyse</h3>
+      <p>Log expenses as you spend. The dashboard shows real-time charts and smart alerts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <h2>Ready to take control of<br>your family finances?</h2>
+  <p>Free forever. No credit card needed. Start in under 60 seconds.</p>
+  <a href="login.html?tab=create" class="btn btn-primary btn-lg">Create Your Household →</a>
+</section>
+
+<!-- ─── Footer ────────────────────────────────────────────────── -->
+<footer class="landing-footer">
+  <div style="display:flex;align-items:center;gap:8px;font-weight:700">
+    <div style="width:24px;height:24px;background:linear-gradient(135deg,var(--accent),#0ea5e9);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px">💰</div>
+    Family<span style="color:var(--accent)">Ledger</span>
+  </div>
+  <p>© 2025 FamilyLedger · Built with ❤️ for families</p>
+  <div style="display:flex;gap:20px">
+    <a href="login.html" style="font-size:0.8rem;color:var(--text-muted)">Login</a>
+    <a href="dashboard.html" style="font-size:0.8rem;color:var(--text-muted)">Dashboard</a>
+  </div>
+</footer>
+
+</body>
+</html>

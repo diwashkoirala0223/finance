@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — FamilyLedger</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div id="toast-container"></div>
+
+<div class="app-shell">
+  <!-- ─── Sidebar ─────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div class="logo-text">Family<span>Ledger</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-label">Main</div>
+        <a class="nav-item active" href="dashboard.html">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a class="nav-item" href="add-expense.html">
+          <span class="nav-icon">💸</span> Add Expense
+        </a>
+        <a class="nav-item" href="budgets.html">
+          <span class="nav-icon">🎯</span> Budgets
+        </a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Account</div>
+        <a class="nav-item" href="index.html">
+          <span class="nav-icon">🏠</span> Home
+        </a>
+        <a class="nav-item" id="logout-btn">
+          <span class="nav-icon">🚪</span> Sign Out
+        </a>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="household-chip">
+        <div class="hh-avatar" id="sidebar-user-init">R</div>
+        <div class="hh-info">
+          <div class="hh-name" id="sidebar-user-name">Loading…</div>
+          <div class="hh-role" id="sidebar-hh-name">—</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── Main ─────────────────────────────────────────────── -->
+  <div class="main-content">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none">☰</button>
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-subtitle">Household overview & analytics</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="add-expense.html" class="btn btn-primary btn-sm">+ Add Expense</a>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="page-content">
+      <!-- Month Filters -->
+      <div id="month-filters" class="filter-pills"></div>
+
+      <!-- Stat Cards Row -->
+      <div class="grid grid-4 mb-lg">
+        <div class="stat-card" style="--accent-color:var(--accent)">
+          <div class="stat-icon" style="--icon-bg:var(--accent-dim)">💰</div>
+          <div class="stat-value" id="stat-total-spent">—</div>
+          <div class="stat-label">Total Spent This Month</div>
+          <div class="stat-delta neutral" id="stat-delta">vs last month</div>
+        </div>
+        <div class="stat-card" style="--accent-color:var(--blue)">
+          <div class="stat-icon" style="--icon-bg:var(--blue-dim)">🎯</div>
+          <div class="stat-value" id="stat-total-budget">—</div>
+          <div class="stat-label">Total Monthly Budget</div>
+        </div>
+        <div class="stat-card" id="stat-remaining-card" style="--accent-color:var(--green)">
+          <div class="stat-icon" style="--icon-bg:var(--green-dim)">✅</div>
+          <div class="stat-value" id="stat-remaining">—</div>
+          <div class="stat-label">Budget Remaining</div>
+        </div>
+        <div class="stat-card" style="--accent-color:var(--amber)">
+          <div class="stat-icon" style="--icon-bg:var(--amber-dim)">🚨</div>
+          <div class="stat-value" id="stat-alerts">—</div>
+          <div class="stat-label">Overspent Categories</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px"><span id="stat-transactions">—</span> transactions</div>
+        </div>
+      </div>
+
+      <!-- Overall Budget Bar -->
+      <div class="card mb-lg">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Overall Budget Usage</div>
+            <div class="card-subtitle" id="overall-budget-pct">Calculating…</div>
+          </div>
+        </div>
+        <div class="progress-track" style="height:12px;border-radius:6px">
+          <div class="progress-fill" id="overall-budget-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="grid grid-cols-3-2 mb-lg">
+        <!-- Bar Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Budget vs Spending</div>
+              <div class="card-subtitle">Category-by-category comparison</div>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:260px">
+            <canvas id="bar-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Expense Breakdown</div>
+              <div class="card-subtitle">Share by category</div>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:260px">
+            <canvas id="pie-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend + Budget Progress -->
+      <div class="grid grid-cols-3-2 mb-lg">
+        <!-- 6-month trend -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">6-Month Spending Trend</div>
+              <div class="card-subtitle">Monthly total across all categories</div>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:200px">
+            <canvas id="trend-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Budget Progress Bars -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Category Progress</div>
+            <div class="card-subtitle">vs monthly budget</div>
+          </div>
+          <div id="budget-progress" style="overflow-y:auto;max-height:220px;padding-right:4px"></div>
+        </div>
+      </div>
+
+      <!-- Alerts + Top Spenders -->
+      <div class="grid grid-cols-2-1 mb-lg">
+        <!-- Alerts -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🚨 Budget Alerts</div>
+            <div class="card-subtitle">Categories needing attention</div>
+          </div>
+          <div id="alerts-list"></div>
+        </div>
+
+        <!-- Top Spenders -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">👥 Top Spenders</div>
+            <div class="card-subtitle">This month</div>
+          </div>
+          <div id="top-spenders"></div>
+        </div>
+      </div>
+
+      <!-- Recent Expenses Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Recent Transactions</div>
+            <div class="card-subtitle">Latest 8 expenses this month</div>
+          </div>
+          <a href="add-expense.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Member</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="recent-expenses-body">
+              <tr><td colspan="5"><div class="empty-state" style="padding:24px"><div class="spinner" style="margin:0 auto"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/dashboard.js"></script>
+<script>
+  // Show mobile menu toggle on small screens
+  if (window.innerWidth <= 768) {
+    document.getElementById('menu-toggle').style.display = 'flex';
+  }
+</script>
+</body>
+</html>
